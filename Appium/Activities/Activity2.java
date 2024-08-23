@@ -1,61 +1,65 @@
-package project;
+package activities;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 
 public class Activity2 {
+    // Driver Declaration
+    AndroidDriver driver;
 
-	AppiumDriver driver;
-	WebDriverWait wait;
+    // Set up method
+    @BeforeClass
+    public void setUp() throws MalformedURLException, URISyntaxException {
+        // Desired Capabilities
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setPlatformName("android");
+        options.setAutomationName("UiAutomator2");
+        options.setAppPackage("com.android.chrome");
+        options.setAppActivity("com.google.android.apps.chrome.Main");
+        options.noReset();
 
-	@BeforeClass
-	public void setup() throws MalformedURLException, URISyntaxException {
+        // Set the Appium server URL
+        URL serverURL = new URI("http://localhost:4723").toURL();
 
-		//Set desired capabilities
-		UiAutomator2Options caps = new UiAutomator2Options()
-				.setPlatformName("android")
-				.setAutomationName("UiAutomator2")
-				.setAppPackage("com.google.android.keep")
-				.setAppActivity(".activities.BrowseActivity")
-				.noReset();
+        // Driver Initialization
+        driver = new AndroidDriver(serverURL, options);
 
-		// initialization
-		URL serverURL = new URI("http://localhost:4723").toURL();
-		driver = new AndroidDriver(serverURL, caps);
+        // Open the page in Chrome
+        driver.get("https://v1.training-support.net/");
+    }
 
-	}
+    // Test method
+    @Test
+    public void chromeTest() {
+        // Find heading on the page
+        String pageHeading = driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Training Support\"]")).getText();
 
-	@Test
-	public void AddTask_onGoogleTaks() {
-		
-		driver.findElement(AppiumBy.accessibilityId("New text note")).click();
-		driver.findElement(AppiumBy.id("com.google.android.keep:id/edit_note_text"))
-		.sendKeys("Use the Google Keep app to add a note");
-		driver.findElement(AppiumBy.id("com.google.android.keep:id/editable_title"))
-			.sendKeys("Appiun Project Activity2");
-		driver.findElement(AppiumBy.accessibilityId("Navigate up")).click();
-		
-		WebElement TaksTile= driver.findElement(AppiumBy.id("com.google.android.keep:id/index_note_title"));
-		  Assert.assertEquals(TaksTile.getText(),"Task1");
-	}
+        // Print to console
+        System.out.println("Heading: " + pageHeading);
 
-	@AfterClass
-	public void closeTest() {
-		driver.quit();
-	}
+        // Find and click the About Us link
+        driver.findElement(AppiumBy.accessibilityId("About Us")).click();
 
+        // Find heading of new page and print to console
+        String aboutPageHeading = driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"About Us\"]")).getText();
+        System.out.println(aboutPageHeading);
+    }
+
+
+    // Tear down method
+    @AfterClass
+    public void tearDown() {
+        // Close the app
+        driver.quit();
+    }
 }
