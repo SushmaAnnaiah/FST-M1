@@ -1,4 +1,4 @@
-package project;
+package activities;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -6,17 +6,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
 
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static activities.ActionsBase.doSwipe;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -27,89 +21,42 @@ public class Activity5 {
 	AppiumDriver driver;
 	WebDriverWait wait;
 
-	@BeforeMethod
+	@BeforeClass
 	public void setup() throws MalformedURLException, URISyntaxException {
 
-		//Desired Capabilities
-		UiAutomator2Options caps = new UiAutomator2Options().setPlatformName("andriod")
-				.setAutomationName("UiAutomator2").setAppPackage("com.android.chrome")
-				.setAppActivity("com.google.android.apps.chrome.Main").noReset();
+		// Desired Capabilities
+		UiAutomator2Options caps = new UiAutomator2Options()
+				.setPlatformName("andriod")
+				.setAutomationName("UiAutomator2")
+				.setAppPackage("com.google.android.apps.messaging")
+				.setAppActivity(".ui.ConversationListActivity")
+				.noReset();
 
-		//Set the Appium server URL
+		// Set the Appium server URL
 		URL serverURL = new URI("http://localhost:4723").toURL();
 
-		//Initializing driver
+		// Initializing driver
 		driver = new AndroidDriver(serverURL, caps);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-		driver.get("https://v1.training-support.net/selenium");
 	}
 	
-	@Test(priority=1)
-	public void loginSuccessTest() {
-
-		//Get the resolution of the screen
-		Dimension dims = driver.manage().window().getSize();
-		System.out.println("My Phone dimensions are : " + dims);
-
-		Point start = new Point((int) (dims.getWidth() * 0.5), (int) (dims.getHeight() * 0.85));
-		Point end = new Point((int) (dims.getWidth() * 0.5), (int) (dims.getHeight() * 0.40));
-		wait.until(ExpectedConditions
-				.elementToBeClickable(AppiumBy.xpath("//android.widget.Button[@text=\"Get Started!\"]")));
-
-		//Scroll(Fling) to the end of the page
-		doSwipe(driver, start, end, 10);
-		//Wait for to-do-list link and click it
-		wait.until(ExpectedConditions
-				.elementToBeClickable(AppiumBy.xpath("//android.widget.TextView[@text=\"Login Form\"]"))).click();
+	@Test
+	public void messageTest() {
 		
-		wait.until(ExpectedConditions
-				.elementToBeClickable(AppiumBy.xpath("//android.webkit.WebView[@text=\"Login Form\"]/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]")))
-		.sendKeys("admin");
-		driver.findElement(AppiumBy.xpath("//android.webkit.WebView[@text=\"Login Form\"]/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]")).sendKeys("password");
-		driver.findElement(AppiumBy.xpath("//android.widget.Button[@text=\"Log in\"]")).click();
-		WebElement credentials = driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Welcome Back, admin\"]"));
-		String mgs =credentials.getText();
+		driver.findElement(AppiumBy.accessibilityId("Start chat")).click();
+		driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Type names, phone numbers or emails\"]")).click();
+		driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Type names, phone numbers or emails\"]")).sendKeys("Sanju Jio");
 		
-		Assert.assertEquals(mgs, "Welcome Back, admin");
-	
-		
+		driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Send to 09110421697\"]")).click();
+
+		 
+	    driver.findElement(AppiumBy.id("com.google.android.apps.messaging:id/compose_message_text")).sendKeys("Testing-Activity5");
+		driver.findElement(AppiumBy.accessibilityId("Send SMS")).click();		 
 	}
 	
-	@Test(priority=2)
-	public void loginUnsuccessTest() {
-
-		//Get the resolution of the screen
-		Dimension dims = driver.manage().window().getSize();
-		System.out.println("My Phone dimensions are : " + dims);
-
-		Point start = new Point((int) (dims.getWidth() * 0.5), (int) (dims.getHeight() * 0.85));
-		Point end = new Point((int) (dims.getWidth() * 0.5), (int) (dims.getHeight() * 0.40));
-		wait.until(ExpectedConditions
-				.elementToBeClickable(AppiumBy.xpath("//android.widget.Button[@text=\"Get Started!\"]")));
-
-		//Scroll(Fling) to the end of the page
-		doSwipe(driver, start, end, 10);
-		//Wait for to-do-list link and click it
-		wait.until(ExpectedConditions
-				.elementToBeClickable(AppiumBy.xpath("//android.widget.TextView[@text=\"Login Form\"]"))).click();
-		
-		wait.until(ExpectedConditions
-				.elementToBeClickable(AppiumBy.xpath("//android.webkit.WebView[@text=\"Login Form\"]/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]")))
-		.sendKeys("Admin");
-		driver.findElement(AppiumBy.xpath("//android.webkit.WebView[@text=\"Login Form\"]/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]")).sendKeys("password");
-		driver.findElement(AppiumBy.xpath("//android.widget.Button[@text=\"Log in\"]")).click();
-		WebElement credentials = driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Invalid Credentials\"]"));
-		String mgs =credentials.getText();
-		
-		Assert.assertEquals(mgs, "Invalid Credentials");
-		
-	}
 	
-	@AfterMethod
+	@AfterClass
 	public void teardown() {
-		
 		driver.quit();
-		
 	}
 }
