@@ -35,14 +35,16 @@ public class Activity2 {
         driver = new AndroidDriver(serverURL, options);
 
         // Open the page in Chrome
-        driver.get("https://v1.training-support.net/");
+        driver.get("https://v1.trainig-support.net");
     }
 
     // Test method
     @Test
     public void chromeTest() {
         // Find heading on the page
-        String pageHeading = driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Training Support\"]")).getText();
+        String pageHeading = driver.findElement(AppiumBy.xpath(
+                "//android.widget.TextView[@text='Training Support']"
+        )).getText();
 
         // Print to console
         System.out.println("Heading: " + pageHeading);
@@ -51,7 +53,9 @@ public class Activity2 {
         driver.findElement(AppiumBy.accessibilityId("About Us")).click();
 
         // Find heading of new page and print to console
-        String aboutPageHeading = driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"About Us\"]")).getText();
+        String aboutPageHeading = driver.findElement(AppiumBy.xpath(
+                "//android.widget.TextView[@text='About Us']"
+        )).getText();
         System.out.println(aboutPageHeading);
     }
 
