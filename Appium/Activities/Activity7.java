@@ -22,58 +22,52 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 
 public class Activity7 {
-	
-	AppiumDriver driver;
-	WebDriverWait wait;
+    WebDriverWait wait;
+    AndroidDriver driver;
 
-	@BeforeClass
-	public void setup() throws MalformedURLException, URISyntaxException {
+    @BeforeClass
+    public void beforeClass() throws MalformedURLException, URISyntaxException {
+        // Desired Capabilities
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setPlatformName("Android");
+        options.setAutomationName("UiAutomator2");
+        options.setAppPackage("com.android.chrome");
+        options.setAppActivity("com.google.android.apps.chrome.Main");
+        options.noReset();
 
-		// Desired Capabilities
-		UiAutomator2Options caps = new UiAutomator2Options().setPlatformName("andriod")
-				.setAutomationName("UiAutomator2").setAppPackage("com.android.chrome")
-				.setAppActivity("com.google.android.apps.chrome.Main").noReset();
+        // Server URL
+        URL serverURL = new URI("https://localhost:4723").toURL();
 
-		// Set the Appium server URL
-		URL serverURL = new URI("http://localhost:4723").toURL();
+        // Driver initialization
+        driver = new AndroidDriver(serverURL, options);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-		// Initializing driver
-		driver = new AndroidDriver(serverURL, caps);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        // Open Selenium page
+        driver.get("https://v1.training-support.net/selenium/sliders");
+    }
 
-		driver.get("https://v1.training-support.net/selenium/sliders");
-	}
-	
-	
-	@Test
-	public void volumeSliderTest() {
-		  
-		
-	        // Wait for page to load		
-	        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.xpath("//android.webkit.WebView[@text=\"Sliders\"]/android.view.View/android.view.View/android.view.View")));
-		
-	        // Get the size of the screen		
-	        Dimension dims = driver.manage().window().getSize();
-		
-	        // Set the start and end points		
-	        Point start = new Point((int)(dims.getWidth() * .35), (int)(dims.getHeight() * .49));		
-	        Point end = new Point((int)(dims.getWidth() * .5), (int)(dims.getHeight() * .49));
-		
-	        // Perform swipe		
-	        ActionsBase. doSwipe(driver, start, end, 500);
-			 
-	        // Get the volume level
-		     String volumeText = driver.findElement(AppiumBy.xpath("//android.view.View[contains(@text, 'Volume')]")).getText();
-	      //android.view.View[@text="Volume Level: 0%"]
-	 
-		
-	        // Assertions
-		    assertTrue(volumeText.contains("50%"));		
-	    }
-	
-	@AfterClass
-	public void teardown() {
-		driver.quit();
-	}
-		
-	}
+    @Test
+    public void swipeTest() {
+        // Wait for page to load
+        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.xpath("//android.widget.SeekBar")));
+        // Get the size of the screen
+        Dimension dims = driver.manage().window().getSize();
+        // Set the start and end points
+        Point start = new Point((int)(dims.getWidth() * .35), (int)(dims.getHeight() * .49));
+        Point end = new Point((int)(dims.getWidth() * .5), (int)(dims.getHeight() * .49));
+        // Perform swipe
+        doSwipe(driver, start, end, 500);
+
+        // Get the volume level
+        String volumeText = driver.findElement(AppiumBy.xpath("//android.view.View[contains(@text, 'Volume')]")).getText();
+
+        // Assertions
+        assertTrue(volumeText.contains("50%"));
+    }
+
+    @AfterClass
+    public void afterClass() {
+        // Close the browser
+        driver.quit();
+    }
+}
