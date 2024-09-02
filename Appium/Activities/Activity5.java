@@ -16,47 +16,67 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 
+...
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+
 public class Activity5 {
-	
-	AppiumDriver driver;
-	WebDriverWait wait;
+    // Driver Declaration
+    AndroidDriver driver;
+    WebDriverWait wait;
 
-	@BeforeClass
-	public void setup() throws MalformedURLException, URISyntaxException {
+    // Set up method
+    @BeforeClass
+    public void setUp() throws MalformedURLException {
+        // Desired Capabilities
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setPlatformName("android");
+        options.setAutomationName("UiAutomator2");
+        options.setAppPackage("com.google.android.apps.messaging");
+        options.setAppActivity(".ui.ConversationListActivity");
+        options.noReset();
 
-		// Desired Capabilities
-		UiAutomator2Options caps = new UiAutomator2Options()
-				.setPlatformName("andriod")
-				.setAutomationName("UiAutomator2")
-				.setAppPackage("com.google.android.apps.messaging")
-				.setAppActivity(".ui.ConversationListActivity")
-				.noReset();
+        // Server Address
+        URL serverURL = new URL("http://localhost:4723/");
 
-		// Set the Appium server URL
-		URL serverURL = new URI("http://localhost:4723").toURL();
+        // Driver Initialization
+        driver = new AndroidDriver(serverURL, options);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
-		// Initializing driver
-		driver = new AndroidDriver(serverURL, caps);
-		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-	}
-	
-	@Test
-	public void messageTest() {
-		
-		driver.findElement(AppiumBy.accessibilityId("Start chat")).click();
-		driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Type names, phone numbers or emails\"]")).click();
-		driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Type names, phone numbers or emails\"]")).sendKeys("Sanju Jio");
-		
-		driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text=\"Send to 09110421697\"]")).click();
+    // Test method
+    @Test
+    public void smsTest() {
+        // Find and click the add button
+        driver.findElement(AppiumBy.accessibilityId("Start new conversation")).click();
 
-		 
-	    driver.findElement(AppiumBy.id("com.google.android.apps.messaging:id/compose_message_text")).sendKeys("Testing-Activity5");
-		driver.findElement(AppiumBy.accessibilityId("Send SMS")).click();		 
-	}
-	
-	
-	@AfterClass
-	public void teardown() {
-		driver.quit();
-	}
+        // Wait for elements to load
+        wait.until(ExpectedConditions.elementToBeClickable(
+                AppiumBy.id("recipient_text_view")
+        ));
+
+        // Find the element to add recipient
+        driver.findElement(AppiumBy.id("recipient_text_view")).sendKeys("18282832912");
+        // Press ENTER
+        driver.pressKey(new KeyEvent(AndroidKey.ENTER));
+
+        // Wait for textbox to appear
+        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.id("compose_message_text")));
+
+        // Enter text to send
+        driver.findElement(AppiumBy.id("compose_message_text")).sendKeys("Hello from Appium");
+        // Press Send
+        driver.findElement(AppiumBy.accessibilityId("Send SMS")).click();
+
+        // Assertion
+        String messageTextSent = driver.findElement(AppiumBy.id("message_text")).getText();
+        Assert.assertEquals(messageTextSent, "Hello from Appium");
+    }
+
+    // Tear down method
+    @AfterClass
+    public void tearDown() {
+        // Close the app
+        driver.quit();
+    }
 }
