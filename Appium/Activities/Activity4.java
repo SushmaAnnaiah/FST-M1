@@ -29,8 +29,8 @@ public class Activity4 {
         UiAutomator2Options options = new UiAutomator2Options();
         options.setPlatformName("android");
         options.setAutomationName("UiAutomator2");
-        options.setAppPackage("com.google.android.contacts");
-        options.setAppActivity("com.android.contacts.activities.PeopleActivity");
+        options.setAppPackage("com.android.contacts");
+        options.setAppActivity(".activities.PeopleActivity");
         options.noReset();
 
         // Server Address
@@ -38,14 +38,14 @@ public class Activity4 {
 
         // Driver Initialization
         driver = new AndroidDriver(serverURL, options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     // Test method
     @Test
     public void contactsTest() {
         // Find and click the add button
-        driver.findElement(AppiumBy.id("com.google.android.contacts:id/floating_action_button")).click();
+        driver.findElement(AppiumBy.accessibilityId("Create new contact")).click();
 
         // Wait for elements to load
         wait.until(ExpectedConditions.elementToBeClickable(
@@ -53,18 +53,24 @@ public class Activity4 {
         ));
 
         // Enter the details
-        driver.findElement(AppiumBy.xpath("//android.widget.EditText[@text=\"First name\"]")).sendKeys("Sanju");
-        driver.findElement(AppiumBy.xpath("//android.widget.EditText[@text=\"Last name\"]")).sendKeys("Jio");
-        driver.findElement(AppiumBy.xpath("//android.widget.EditText[@text=\"Phone\"]")).sendKeys("9110421697");
+        driver.findElement(AppiumBy.xpath(
+                "//android.widget.EditText[@text='First name']"
+        )).sendKeys("Sushma");
+        driver.findElement(AppiumBy.xpath(
+                "//android.widget.EditText[@text='Last name']"
+        )).sendKeys("Annaiah");
+        driver.findElement(AppiumBy.xpath(
+                "//android.widget.EditText[@text='Phone']"
+        )).sendKeys("9731743434");
         // Click Save
-        driver.findElement(AppiumBy.id("com.google.android.contacts:id/toolbar_button")).click();
+        driver.findElement(AppiumBy.id("editor_menu_save_button")).click();
 
         // Wait for contact to save
-        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.id("com.google.android.contacts:id/large_title")));
+        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.id("large_title")));
 
         // Assertion
-        String contactName = driver.findElement(AppiumBy.id("com.google.android.contacts:id/large_title")).getText();
-        Assert.assertEquals(contactName, "Sanju Jio");
+        String contactName = driver.findElement(AppiumBy.id("large_title")).getText();
+        Assert.assertEquals(contactName, "Sushma Annaiah");
     }
 
     // Tear down method
