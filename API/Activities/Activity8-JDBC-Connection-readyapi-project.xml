@@ -1,5 +1,164 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="745e7add-c17d-40ea-8378-4a3a1e7c9f9b" created="3.53.0" activeEnvironment="Default environment" encryptionMode="Not encrypted" name="Activity8-JDBC Connection" projectVersion="" updated="3.53.0 2024-05-13T12:06:25Z" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" id="2ee47999-3f13-4038-bf2e-78460a060ed1" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://ipwhois.app" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings id="27b6d2b7-69a3-44c8-8bb7-1ef9f5b70c9d"/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://ipwhois.app</con:endpoint></con:endpoints><con:resource name="IP" path="/json/{IP}" id="61ac79cd-d1c9-46c8-97cc-4b22f5570013"><con:settings/><con:parameters/><con:method name="IP" id="32afd39f-9ade-4c0c-9675-e8b486f82f8a" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>IP</con:name><con:value>IP</con:value><con:style>TEMPLATE</con:style><con:default>IP</con:default><con:path xsi:nil="true"/><con:description xsi:nil="true"/></con:parameter></con:parameters><con:representation type="RESPONSE"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:ns="http://ipwhois.app/json/128.63.33.106">ns:Response</con:element></con:representation><con:request name="Request 1" id="e367036c-1dbc-42eb-8f88-c941c28e6dee" mediaType="application/json"><con:settings/><con:endpoint>http://ipwhois.app</con:endpoint><con:parameters><con:entry key="IP" value="IP"/></con:parameters><con:parameterOrder><con:entry>IP</con:entry></con:parameterOrder></con:request></con:method></con:resource></con:interface><con:testSuite id="9477fae3-26fc-4161-bc57-22cb3057ade3" name="http://ipwhois.app Test Suite"><con:settings id="ea29c585-0a58-4c0e-b9e8-3bbbe3f3bcff"/><con:runType>SEQUENTIAL</con:runType><con:testCase id="e16aee63-d8ec-4470-b1cf-921d5349fba3" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="http://ipwhois.app Test Case 1" searchProperties="true" timeout="0"><con:settings/><con:testStep type="datasource" name="Data Source" id="22d4d780-f557-409e-a294-8d6b32832a15"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.teststeps.datasource.DataSourceContainer@prepared-properties">&lt;xml-fragment/></con:setting></con:settings><con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:dataSource type="Data Generator"><con:configuration><generatedDataCount>10</generatedDataCount><generatorsTotalNumber>1</generatorsTotalNumber><lastSelectedProperty>-1</lastSelectedProperty><GeneratorType0>COMP</GeneratorType0><PropertyName0>IP</PropertyName0><repetitionCountIP>0</repetitionCountIP><repeatValuesIP>false</repeatValuesIP><ComputerAddressTypeIP>IPv4</ComputerAddressTypeIP><escapeSpaceSequence/></con:configuration></con:dataSource><con:shared>false</con:shared><con:restartShared>false</con:restartShared><con:property>IP</con:property><con:restartOnRun>true</con:restartOnRun><con:stopDatasourceExhausted>false</con:stopDatasourceExhausted></con:config></con:testStep><con:testStep type="restrequest" name="Request 1" id="c571aa3b-6718-4018-ac66-9d867af64484"><con:settings/><con:config service="http://ipwhois.app" resourcePath="/json/{IP}" methodName="IP" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Request 1" id="e367036c-1dbc-42eb-8f88-c941c28e6dee" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://ipwhois.app</con:endpoint><con:request/><con:originalUri>http://ipwhois.app/json/128.63.33.106</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="16d491bc-2f35-46d6-a8d8-ac335f680558" name="Valid HTTP Status Codes"><con:settings/><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="JsonPath Match" id="9f712e68-2f99-4ff5-838d-3796c986c7f0" name="JSONPath Match"><con:configuration><path>$['country']</path><content>"India"</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:parameters><con:entry key="IP" value="${Data Source 2#IP}"/></con:parameters><con:parameterOrder><con:entry>IP</con:entry></con:parameterOrder></con:restRequest></con:config></con:testStep><con:testStep type="transfer" name="PropertyTransfer 1" id="00d3b478-649e-4f30-a59e-5b540da948fd"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true"><con:name>city</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>Request 1</con:sourceStep><con:sourcePath>$['city']</con:sourcePath><con:targetType>city_name</con:targetType><con:targetStep>Data Sink</con:targetStep><con:targetPath/><con:type>JSONPATH</con:type><con:upgraded>true</con:upgraded></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true"><con:name>latitude</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>Request 1</con:sourceStep><con:sourcePath>$['latitude']</con:sourcePath><con:targetType>latitude</con:targetType><con:targetStep>Data Sink</con:targetStep><con:targetPath/><con:type>JSONPATH</con:type><con:upgraded>true</con:upgraded></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true"><con:name>longitude</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>Request 1</con:sourceStep><con:sourcePath>$['longitude']</con:sourcePath><con:targetType>longitude</con:targetType><con:targetStep>Data Sink</con:targetStep><con:targetPath/><con:type>JSONPATH</con:type><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="datasink" name="Data Sink" id="af1d08f1-186f-4b56-8958-5b3d8e0386d2"><con:settings/><con:config xsi:type="con:DataSinkStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:dataSink type="JDBC"><con:configuration><driver>com.mysql.jdbc.Driver</driver><connstr>jdbc:mysql://db4free.net:3306/fstm1db?user=fstm1db&amp;password=PASS_VALUE</connstr><pass>6Y6NowPybq</pass><Connection>NewJDBC( Default environment )</Connection><query>insert into coordinates(city_name,latitude,longitude) values (?,?,?);</query><stored-procedure>false</stored-procedure></con:configuration></con:dataSink><con:properties><con:property><con:name>city_name</con:name></con:property><con:property><con:name>latitude</con:name></con:property><con:property><con:name>longitude</con:name></con:property></con:properties></con:config></con:testStep><con:testStep type="datasourceloop" name="Data Source Loop" id="473d96c5-ddef-473e-9abc-78ef8566befe"><con:settings/><con:config><dataSourceStep>Data Source</dataSourceStep><targetStep>Request 1</targetStep><discardResults>true</discardResults></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:requirements/><con:properties/><con:wssContainer/><con:databaseConnectionContainer><con:databaseConnection><con:name>Test</con:name><con:driver>com.mysql.jdbc.Driver</con:driver><con:connectionString>jdbc:mysql://db4free.net:3306/fstm1db?user=fstm1db&amp;password=PASS_VALUE</con:connectionString><con:password>PASS_VALUE</con:password><con:connectionProperties/></con:databaseConnection><con:databaseConnection><con:name>NewJDBC</con:name><con:driver>com.mysql.jdbc.Driver</con:driver><con:connectionString>jdbc:mysql://db4free.net:3306/fstm1db?user=fstm1db&amp;password=PASS_VALUE</con:connectionString><con:password>6Y6NowPybq</con:password><con:connectionProperties/></con:databaseConnection></con:databaseConnectionContainer><con:jmsConnectionContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:reporting><con:xmlTemplates/><con:parameters/></con:reporting><con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest"><con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
+<con:soapui-project id="3c3befd5-27c5-48ae-8c8e-53af3ada5bde" created="3.53.0" activeEnvironment="Default environment" encryptionMode="Not encrypted" name="Activity2" projectVersion="" updated="3.53.0 2024-09-09T12:06:25Z" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface xsi:type="con:RestService" id="227ca568-c4ec-4e75-a96b-9c6ab2b2370b" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://petstore.swagger.io" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings id="1b3a34bf-f8af-4fd3-ab53-b4c413de5b33"/>
+    <con:definitionCache type="TEXT" rootPart=""/>
+    <con:endpoints>
+      <con:endpoint>https://petstore.swagger.io</con:endpoint>
+    </con:endpoints>
+    <con:resource name="FindByStatus" path="/v2/pet/findByStatus" id="1dfa2375-5c23-4966-baa3-9ea984dd2f0d">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="FindByStatus" id="58d60dc7-8c15-47ec-b0ad-556f7feb06dc" method="GET">
+        <con:settings/>
+        <con:parameters>
+          <con:parameter required="true">
+            <con:name>status</con:name>
+            <con:value>sold</con:value>
+            <con:style>QUERY</con:style>
+            <con:default>sold</con:default>
+            <con:path xsi:nil="true"/>
+            <con:description xsi:nil="true"/>
+          </con:parameter>
+        </con:parameters>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element>Response</con:element>
+        </con:representation>
+        <con:request name="Request 1" id="a23ac654-51d2-47a5-8360-116ef9a308cb" mediaType="application/json">
+          <con:settings/>
+          <con:endpoint>https://petstore.swagger.io</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:parameters>
+            <con:entry key="status" value="sold"/>
+          </con:parameters>
+          <con:parameterOrder>
+            <con:entry>status</con:entry>
+          </con:parameterOrder>
+        </con:request>
+      </con:method>
+    </con:resource>
+    <con:resource name="pet" path="v2/pet" id="c75c9a42-c639-451d-9ff2-41c4bbb83556">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="POST" id="051a8113-e919-48af-8b8d-fb816fa8a230" method="POST">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="REQUEST">
+          <con:mediaType>application/json</con:mediaType>
+          <con:params/>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element xmlns:pet="https://petstore.swagger.io/v2/pet">pet:Response</con:element>
+        </con:representation>
+        <con:request name="Request 1" id="d516a0d6-c596-47f0-8ce0-16df4becf024" mediaType="application/json" postQueryString="false">
+          <con:settings/>
+          <con:endpoint>https://petstore.swagger.io</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:parameters/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:testSuite id="a80eafc1-9929-4eda-83d6-cd38d4e7e470" name="https://petstore.swagger.io Test Suite">
+    <con:settings id="0d88dfbd-3cf1-4003-8bda-a8e20b6ccd7d"/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="ed219a56-434d-4ac7-8d84-0878f41f67dd" discardOkResults="false" failOnError="false" failTestCaseOnErrors="true" keepSession="false" name="https://petstore.swagger.io Test Case 1" searchProperties="true" timeout="0">
+      <con:settings/>
+      <con:testStep type="restrequest" name="Request 1" id="ef259fd6-7536-4bd2-982b-014327ce9291">
+        <con:settings/>
+        <con:config service="https://petstore.swagger.io" resourcePath="/v2/pet/findByStatus" methodName="FindByStatus" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="Request 1" id="a23ac654-51d2-47a5-8360-116ef9a308cb" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>https://petstore.swagger.io</con:endpoint>
+            <con:request/>
+            <con:originalUri>https://petstore.swagger.io/v2/pet/findByStatus</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="7eae84ca-5f82-4031-905f-388bf2436225" name="Valid HTTP Status Codes">
+              <con:settings/>
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters>
+              <con:entry key="status" value="sold"/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>status</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="Post Request" id="38aa0131-c81e-4d23-9dd9-ff9d3e1377e4">
+        <con:settings/>
+        <con:config service="https://petstore.swagger.io" resourcePath="/v2/pet" methodName="POST" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="Post Request" id="d516a0d6-c596-47f0-8ce0-16df4becf024" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>https://petstore.swagger.io</con:endpoint>
+            <con:request>{
+    "id": 77232,
+    "name": "Riley",
+    "status": "alive"
+}</con:request>
+            <con:originalUri>https://petstore.swagger.io/v2/pet</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="c0a99343-eca9-4b54-a36c-09abe4d73921" name="Valid HTTP Status Codes">
+              <con:settings/>
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters/>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:properties/>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer/>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:reporting>
+    <con:xmlTemplates/>
+    <con:parameters/>
+  </con:reporting>
+  <con:eventHandlers type="RequestFilter.filterRequest" name="RequestFilter.filterRequest">
+    <con:script>// Sample event script to add custom HTTP header to all outgoing REST, SOAP and HTTP(S) calls
 // This code is often used for adding custom authentication to ReadyAPI functional tests
 
 // If hardcoding the token, uncomment and change line 5
@@ -13,7 +172,10 @@
 // if (headers.containsKey('auth_token2') == false) {
 //   headers.put('auth_token2', token)
 //   request.requestHeaders = headers
-// }</con:script></con:eventHandlers><con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep"><con:script>// Save all test step results into files
+// }</con:script>
+  </con:eventHandlers>
+  <con:eventHandlers type="TestRunListener.afterStep" name="TestRunListener.afterStep">
+    <con:script>// Save all test step results into files
 // Change the directory path in line 5 to a location where you want to store details
 // then uncomment lines 5 to 10
 
@@ -22,4 +184,8 @@
 // pw = new java.io.PrintWriter(fos)
 // testStepResult.writeTo(pw)
 // pw.close()
-// fos.close()</con:script></con:eventHandlers><con:authRepository/><con:tags/></con:soapui-project>
+// fos.close()</con:script>
+  </con:eventHandlers>
+  <con:authRepository/>
+  <con:tags/>
+</con:soapui-project>
